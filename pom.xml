@@ -3,6 +3,10 @@
   <groupId>com.github.tomspencer</groupId>
   <artifactId>salary-slip</artifactId>
   <version>1</version>
+  <properties>
+    <maven.compiler.target>12</maven.compiler.target>
+    <maven.compiler.source>12</maven.compiler.source>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
