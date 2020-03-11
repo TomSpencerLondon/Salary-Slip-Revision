@@ -46,8 +46,8 @@ public class SalarySlipGeneratorShould {
 
 
     Assert.assertEquals(916.67, result.getMonthlyTaxFreeAllowance(), 0.1);
-    Assert.assertEquals(83.33, result.getTaxableIncome(), 0.1);
-    Assert.assertEquals(16.67, result.getTaxPayable(), 0.1);
+    Assert.assertEquals(83.33, result.getTaxableMonthlyIncome(), 0.1);
+    Assert.assertEquals(16.67, result.getMonthlyTaxPayable(), 0.1);
   }
 
   @Test
@@ -60,6 +60,9 @@ public class SalarySlipGeneratorShould {
     SalarySlip result = salarySlipGenerator.generateFor(employee);
 
 
-    Assert.assertEquals(166.67, result.getHigherRateMonthlyTaxableIncome(), 0.1);
+    Assert.assertEquals(3_750.00, result.getGrossMonthlySalary(), 0.1);
+    Assert.assertEquals(2_833.33, result.getTaxableMonthlyIncome(), 0.1);
+    Assert.assertEquals(600.00, result.getMonthlyTaxPayable(), 0.1);
+    Assert.assertEquals(33.33, result.additionalTaxDueToExceedingHigherRateThreshold(), 0.1);
   }
 }

@@ -5,10 +5,11 @@ public class SalarySlip {
   public static final int MINIMUM_SALARY_FOR_NATIONAL_INSURANCE = 8060;
   public static final int MONTHS_IN_YEAR = 12;
   public static final double NATIONAL_INSURANCE_PERCENTAGE = 0.12;
-  public static final double TAXABLE_PERCENTAGE = 0.20;
+  public static final double BASIC_RATE = 0.20;
   public static final double GROSS_TAX_FREE_ALLOWANCE = 11000.0;
   public static final double ROUNDING_ADJUSTMENT = 100.0;
   public static final double MONTHLY_HIGHER_RATE_THRESHOLD = 3583.33;
+  public static final double HIGHER_RATE_THRESHOLD = 43000.00;
   private final String name;
   private final double salary;
 
@@ -32,12 +33,20 @@ public class SalarySlip {
     return Math.round(monthlyTaxFeeAllowance * ROUNDING_ADJUSTMENT) / ROUNDING_ADJUSTMENT;
   }
 
-  public double getTaxableIncome(){
+  public double getTaxableMonthlyIncome(){
     return getGrossMonthlySalary() - getMonthlyTaxFreeAllowance();
   }
 
-  public double getTaxPayable(){
-    return getTaxableIncome() * TAXABLE_PERCENTAGE;
+  public double getMonthlyTaxPayable(){
+    double result = getTaxableMonthlyIncome() * BASIC_RATE;
+    if (getHigherRateMonthlyTaxableIncome() > 0){
+      result += additionalTaxDueToExceedingHigherRateThreshold();
+    }
+    return result;
+  }
+
+  public double additionalTaxDueToExceedingHigherRateThreshold(){
+    return ((salary - HIGHER_RATE_THRESHOLD) / MONTHS_IN_YEAR) * BASIC_RATE;
   }
 
   public double getHigherRateMonthlyTaxableIncome(){
