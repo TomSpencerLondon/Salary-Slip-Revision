@@ -23,9 +23,9 @@ public class SalarySlip {
   }
 
   public double getNationalInsuranceContribution() {
-    double result = salary - MINIMUM_SALARY_FOR_NATIONAL_INSURANCE;
-    result = result * NATIONAL_INSURANCE_PERCENTAGE;
-    return Math.floor(result / MONTHS_IN_YEAR);
+    double yearlyContribution = salary - MINIMUM_SALARY_FOR_NATIONAL_INSURANCE;
+    yearlyContribution = yearlyContribution * NATIONAL_INSURANCE_PERCENTAGE;
+    return Math.floor(yearlyContribution / MONTHS_IN_YEAR);
   }
 
   public double getMonthlyTaxFreeAllowance(){
