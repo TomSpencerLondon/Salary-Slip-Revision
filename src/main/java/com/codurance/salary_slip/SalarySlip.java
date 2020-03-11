@@ -8,6 +8,7 @@ public class SalarySlip {
   public static final double TAXABLE_PERCENTAGE = 0.20;
   public static final double GROSS_TAX_FREE_ALLOWANCE = 11000.0;
   public static final double ROUNDING_ADJUSTMENT = 100.0;
+  public static final double MONTHLY_HIGHER_RATE_THRESHOLD = 3583.33;
   private final String name;
   private final double salary;
 
@@ -16,7 +17,7 @@ public class SalarySlip {
     this.salary = employee.getGrossSalary();
   }
 
-  public double getMonthlySalary() {
+  public double getGrossMonthlySalary() {
     return Math.floor(salary / 12);
   }
 
@@ -32,10 +33,14 @@ public class SalarySlip {
   }
 
   public double getTaxableIncome(){
-    return getMonthlySalary() - getMonthlyTaxFreeAllowance();
+    return getGrossMonthlySalary() - getMonthlyTaxFreeAllowance();
   }
 
   public double getTaxPayable(){
     return getTaxableIncome() * TAXABLE_PERCENTAGE;
+  }
+
+  public double getHigherRateMonthlyTaxableIncome(){
+    return getGrossMonthlySalary() - MONTHLY_HIGHER_RATE_THRESHOLD;
   }
 }

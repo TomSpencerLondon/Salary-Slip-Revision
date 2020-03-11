@@ -15,7 +15,7 @@ public class SalarySlipGeneratorShould {
     double monthlySalary = 416;
 
     SalarySlip result = salarySlipGenerator.generateFor(employee);
-    Assert.assertEquals(monthlySalary, result.getMonthlySalary(), 0);
+    Assert.assertEquals(monthlySalary, result.getGrossMonthlySalary(), 0);
   }
 
   @Test
@@ -57,14 +57,9 @@ public class SalarySlipGeneratorShould {
     double annualGrossSalary = 45000;
     Employee employee = new Employee(id, name, annualGrossSalary);
     SalarySlipGenerator salarySlipGenerator = new SalarySlipGenerator();
-
-    double nationalInsuranceContribution = 10;
-
     SalarySlip result = salarySlipGenerator.generateFor(employee);
 
 
-    Assert.assertEquals(916.67, result.getMonthlyTaxFreeAllowance(), 0.1);
-    Assert.assertEquals(83.33, result.getTaxableIncome(), 0.1);
-    Assert.assertEquals(16.67, result.getTaxPayable(), 0.1);
+    Assert.assertEquals(166.67, result.getHigherRateMonthlyTaxableIncome(), 0.1);
   }
 }
