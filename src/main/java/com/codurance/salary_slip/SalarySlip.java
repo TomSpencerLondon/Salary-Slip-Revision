@@ -10,6 +10,7 @@ public class SalarySlip {
   public static final double ROUNDING_ADJUSTMENT = 100.0;
   public static final double MONTHLY_HIGHER_RATE_THRESHOLD = 3583.33;
   public static final double HIGHER_RATE_THRESHOLD = 43000.00;
+
   private final String name;
   private final double salary;
 
@@ -25,7 +26,17 @@ public class SalarySlip {
   public double getNationalInsuranceContribution() {
     double yearlyContribution = salary - MINIMUM_SALARY_FOR_NATIONAL_INSURANCE;
     yearlyContribution = yearlyContribution * NATIONAL_INSURANCE_PERCENTAGE;
-    return Math.floor(yearlyContribution / MONTHS_IN_YEAR);
+    yearlyContribution -= higherRateFilter();
+    return Math.round((yearlyContribution / MONTHS_IN_YEAR) * ROUNDING_ADJUSTMENT) / ROUNDING_ADJUSTMENT;
+  }
+
+  private double higherRateFilter() {
+    double tenPercent = 0;
+    if (salary > HIGHER_RATE_THRESHOLD) {
+      double nationalInsuranceExcessReduction = salary - 43000.00;
+      tenPercent = nationalInsuranceExcessReduction * 0.10;
+    }
+    return tenPercent;
   }
 
   public double getMonthlyTaxFreeAllowance(){

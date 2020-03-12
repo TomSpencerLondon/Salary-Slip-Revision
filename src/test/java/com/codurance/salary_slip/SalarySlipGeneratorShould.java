@@ -64,5 +64,6 @@ public class SalarySlipGeneratorShould {
     Assert.assertEquals(2_833.33, result.getTaxableMonthlyIncome(), 0.1);
     Assert.assertEquals(600.00, result.getMonthlyTaxPayable(), 0.1);
     Assert.assertEquals(33.33, result.additionalTaxDueToExceedingHigherRateThreshold(), 0.1);
+    Assert.assertEquals(352.73, result.getNationalInsuranceContribution(), 0.1);
   }
 }
