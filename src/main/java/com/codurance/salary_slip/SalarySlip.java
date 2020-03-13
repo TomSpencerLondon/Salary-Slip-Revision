@@ -20,7 +20,8 @@ public class SalarySlip {
   }
 
   public double getGrossMonthlySalary() {
-    return Math.floor(salary / 12);
+    double result = (salary / 12);
+    return Math.round(result * ROUNDING_ADJUSTMENT) / ROUNDING_ADJUSTMENT;
   }
 
   public double getNationalInsuranceContribution() {
@@ -45,6 +46,8 @@ public class SalarySlip {
   }
 
   public double getTaxableMonthlyIncome(){
+    System.out.println(getGrossMonthlySalary());
+    System.out.println(getMonthlyTaxFreeAllowance());
     return getGrossMonthlySalary() - getMonthlyTaxFreeAllowance();
   }
 
