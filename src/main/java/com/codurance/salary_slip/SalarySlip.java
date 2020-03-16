@@ -10,6 +10,7 @@ public class SalarySlip {
   public static final double ROUNDING_ADJUSTMENT = 100.0;
   public static final double MONTHLY_HIGHER_RATE_THRESHOLD = 3583.33;
   public static final double HIGHER_RATE_THRESHOLD = 43000.00;
+  public static final int HIGHER_SALARY_BOUND = 100000;
 
   private final String name;
   private final double salary;
@@ -41,26 +42,34 @@ public class SalarySlip {
   }
 
   public double getMonthlyTaxFreeAllowance(){
-    double monthlyTaxFeeAllowance = GROSS_TAX_FREE_ALLOWANCE / MONTHS_IN_YEAR;
+    double taxFreeAllowance = GROSS_TAX_FREE_ALLOWANCE;
+    if (salary > HIGHER_SALARY_BOUND){
+      taxFreeAllowance -= (salary - HIGHER_SALARY_BOUND) / 2;
+    }
+    double monthlyTaxFeeAllowance = taxFreeAllowance / MONTHS_IN_YEAR;
     return Math.round(monthlyTaxFeeAllowance * ROUNDING_ADJUSTMENT) / ROUNDING_ADJUSTMENT;
   }
 
   public double getTaxableMonthlyIncome(){
     System.out.println(getGrossMonthlySalary());
     System.out.println(getMonthlyTaxFreeAllowance());
+
     return getGrossMonthlySalary() - getMonthlyTaxFreeAllowance();
   }
 
   public double getMonthlyTaxPayable(){
     double result = getTaxableMonthlyIncome() * BASIC_RATE;
+
     if (getHigherRateMonthlyTaxableIncome() > 0){
       result += additionalTaxDueToExceedingHigherRateThreshold();
     }
+
     return result;
   }
 
   public double additionalTaxDueToExceedingHigherRateThreshold(){
-    return ((salary - HIGHER_RATE_THRESHOLD) / MONTHS_IN_YEAR) * BASIC_RATE;
+    double result = ((salary - HIGHER_RATE_THRESHOLD) / MONTHS_IN_YEAR) * BASIC_RATE;
+    return Math.round(result * ROUNDING_ADJUSTMENT) / ROUNDING_ADJUSTMENT;
   }
 
   public double getHigherRateMonthlyTaxableIncome(){
